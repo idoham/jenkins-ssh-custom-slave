@@ -2,7 +2,7 @@ FROM jenkins/ssh-slave
 LABEL MAINTAINER="Omer Barel <jungo@jungopro.com>"
 
 ## Add Docker Client
-ARG DOCKER_VERSION
+ENV DOCKER_VERSION=18.06.1-ce
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 \
                  -C /usr/local/bin docker/docker \
@@ -11,10 +11,10 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 # Add kubectl & helm
 # Note: Latest version of kubectl may be found at:
 # https://aur.archlinux.org/packages/kubectl-bin/
-ARG KUBE_VERSION
+ENV KUBE_VERSION=v1.11.3
 # Note: Latest version of helm may be found at:
 # https://github.com/kubernetes/helm/releases
-ARG HELM_VERSION
+ENV HELM_VERSION=v2.11.0
 RUN wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/kubectl \
     && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
@@ -22,7 +22,7 @@ RUN wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBE_VER
 
 ## Add nodejs
 
-ARG NODEJS_VERSION
+ENV NODEJS_VERSION=10
 
 RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}}.x | bash - && apt-get install -y nodejs gcc g++ make
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && apt-get update && apt-get install -y yarn
