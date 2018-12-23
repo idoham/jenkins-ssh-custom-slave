@@ -2,8 +2,8 @@ FROM jenkins/ssh-slave
 LABEL MAINTAINER="Omer Barel <jungo@jungopro.com>"
 
 ## Add Docker Client
-ARG DOCKERVERSION
-RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
+ARG DOCKER_VERSION
+RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 \
                  -C /usr/local/bin docker/docker \
   && rm docker-${DOCKERVERSION}.tgz
